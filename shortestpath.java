@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package busoute;
 
-/**
- *
- * @author admin
- */
+
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 public class shortestpath extends javax.swing.JFrame {
 
     /**
@@ -40,10 +36,7 @@ public class shortestpath extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -67,6 +60,11 @@ public class shortestpath extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton2.setText("Home");
@@ -137,6 +135,43 @@ public class shortestpath extends javax.swing.JFrame {
         h.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                    DefaultTableModel data = (DefaultTableModel) jTable1.getModel();
+                    int count = data.getRowCount();
+                    for(int i=0; i<count;++i)
+                        data.removeRow(0);
+                try {
+                    int start = Integer.parseInt(jTextField1.getText());
+                    int end = Integer.parseInt(jTextField2.getText());
+                    ArrayList<String> result = shortestPathsFinder.getShortestPath(start, end);
+                    if (result != null) {
+                        // display results
+                        //Label costLabel = new Label(
+                        //        "The 'cost' of the path between the two stops is: " + result.get(0));
+                        //costLabel.setAlignment(Pos.CENTER);
+                        data.addRow(new Object[]{"The 'cost' of the path between the two stops is: " + result.get(0)});
+                        //output.add(costLabel, 10, 0);
+                        //Label pathLabel = new Label("The path is: ");
+                        data.addRow(new Object[]{"The path is: "});
+                        //output.add(pathLabel, 10, 1);
+                        for (int i = 1; i < result.size(); i++) {
+                            //Label pathEntry = new Label(result.get(i));
+                            //pathEntry.setAlignment(Pos.CENTER);
+                            //output.add(pathEntry, 10, i + 2);
+                            data.addRow(new Object[]{""+(result.get(i))});
+                        }
+                        //mainPane.getChildren().addAll(outputTitle, sp);
+                    } else {
+                        // display error
+                        ;//mainPane.getChildren().add(error);
+                    }
+                } catch (Exception e) {
+                    // display error
+                    data.addRow(new Object[]{e.getMessage()});
+                    //mainPane.getChildren().add(error);
+                }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,7 +1,7 @@
+package busoute;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -44,15 +44,24 @@ public class searchonarrivaltime extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Trip ID", "Arrival Time", "Departure Time", "Stop Id", "Stop Seq", "Stop Headsign", "Pickup Type", "Drop Off", "Shape Dist"
             }
-        ));
+        ) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -96,14 +105,14 @@ public class searchonarrivaltime extends javax.swing.JFrame {
                         .addGap(105, 105, 105)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(207, 207, 207)
                         .addComponent(jButton1)
                         .addGap(106, 106, 106)
-                        .addComponent(jButton2)))
-                .addContainerGap(210, Short.MAX_VALUE))
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1031, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,21 +160,26 @@ public class searchonarrivaltime extends javax.swing.JFrame {
                         
                     }*/
 
+                    System.out.println("result="+result);
                     for (int i = 0; i < result.length; i++) {
                         String entry = "";
                         String[] a = result[i].split(",");
                         int len = a.length;
+                        Object []rows = new String[len];
                         for (int j = 0; j < len; j++) {
-                            entry = result[i].split(",")[j];
-                            /*Label entryLabel = new Label(entry);
+                            /*entry = result[i].split(",")[j];
+                            Label entryLabel = new Label(entry);
                             entryLabel.setStyle("-fx-font: 10px Verdana;");
                             entryLabel.setTextFill(Color.WHITE);
                             entryLabel.setPrefWidth(100);
                             entryLabel.setAlignment(Pos.CENTER);*/
                            // output.add(entryLabel, j, i);
-                            System.out.println(entry);
-                           data.addRow(new Object[]{entry});
+                           rows[j] = (Object) a[j];
+                            //System.out.println(a[j]);
+                            data.addRow( (new Object[]{a[j]}));
+                           
                         }
+                        data.addRow( (new Object[]{"______"}));
                     }
                     //mainPane.getChildren().addAll(outputTitle, sp);
                 } else {

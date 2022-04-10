@@ -1,3 +1,8 @@
+package busoute;
+
+
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -60,6 +65,11 @@ public class searchstopname extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton2.setText("Home");
@@ -119,6 +129,31 @@ public class searchstopname extends javax.swing.JFrame {
         a.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                String input = jTextField1.getText();
+                DefaultTableModel data = (DefaultTableModel) jTable1.getModel();
+                String[][] result = StopNameFinder.findBusStops(input);
+                System.out.println(result);
+                if (result != null) {
+                    // display result
+                    for (int i = 0; i < result.length; i++) {
+                        for (int j = 0; j < result[i].length; j++) {
+                            /*System.out.println(result[i][j]);
+                            Label entry = new Label(result[i][j]);
+                            entry.setTextAlignment(TextAlignment.CENTER);
+                            output.add(entry, j, i);*/
+                            data.addRow( (new Object[]{result[i][j]}));
+                        }
+                    }
+                    //output.setHgap(25);
+                    //mainPane.getChildren().addAll(outputTitle, sp);
+                } else {
+
+                    ;//mainPane.getChildren().add(error);
+
+                }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
